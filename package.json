@@ -111,8 +111,8 @@
         "plcAI.model": {
           "type": "string",
           "enum": ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5-20251001"],
-          "default": "claude-sonnet-4-6",
-          "description": "Claude model to use. Sonnet is recommended for best speed/quality ratio."
+          "default": "claude-haiku-4-5-20251001",
+          "description": "Claude model to use. Haiku is cheapest for testing, Sonnet is recommended for production."
         }
       }
     }
