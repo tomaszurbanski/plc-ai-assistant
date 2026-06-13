@@ -1,0 +1,138 @@
+{
+  "name": "plc-ai-assistant",
+  "displayName": "PLC AI Assistant",
+  "description": "AI assistant for PLC code analysis, machine diagnostics and maintenance documentation. Powered by Claude AI.",
+  "version": "0.1.0",
+  "publisher": "turbanski",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "Programming Languages", "Linters"],
+  "keywords": ["PLC", "Siemens", "TIA Portal", "SCL", "automation", "AI", "maintenance"],
+  "activationEvents": [
+    "onLanguage:scl",
+    "onCommand:plcAI.analyzeBlock",
+    "onCommand:plcAI.generateDocumentation",
+    "onCommand:plcAI.generateAlarmList",
+    "onCommand:plcAI.findMissingDiagnostics",
+    "onCommand:plcAI.createFatChecklist",
+    "onCommand:plcAI.explainCode",
+    "onCommand:plcAI.generateSclBlock"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "plcAI.analyzeBlock",
+        "title": "PLC AI: Analyze PLC Block",
+        "icon": "$(search)"
+      },
+      {
+        "command": "plcAI.generateDocumentation",
+        "title": "PLC AI: Generate Maintenance Documentation"
+      },
+      {
+        "command": "plcAI.generateAlarmList",
+        "title": "PLC AI: Generate HMI Alarm List"
+      },
+      {
+        "command": "plcAI.findMissingDiagnostics",
+        "title": "PLC AI: Find Missing Diagnostics"
+      },
+      {
+        "command": "plcAI.createFatChecklist",
+        "title": "PLC AI: Create FAT/SAT Checklist"
+      },
+      {
+        "command": "plcAI.explainCode",
+        "title": "PLC AI: Explain Selected Code"
+      },
+      {
+        "command": "plcAI.generateSclBlock",
+        "title": "PLC AI: Generate SCL Block"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "plcAI.analyzeBlock",
+          "when": "resourceExtname =~ /\\.(scl|xml|db|udt|txt)$/",
+          "group": "plcAI"
+        },
+        {
+          "command": "plcAI.generateDocumentation",
+          "when": "explorerResourceIsFolder || resourceExtname =~ /\\.(scl|xml)$/",
+          "group": "plcAI"
+        },
+        {
+          "command": "plcAI.generateAlarmList",
+          "when": "resourceExtname =~ /\\.(scl|xml|txt)$/",
+          "group": "plcAI"
+        },
+        {
+          "command": "plcAI.findMissingDiagnostics",
+          "when": "resourceExtname =~ /\\.(scl|xml)$/",
+          "group": "plcAI"
+        },
+        {
+          "command": "plcAI.createFatChecklist",
+          "when": "explorerResourceIsFolder || resourceExtname =~ /\\.(scl|xml)$/",
+          "group": "plcAI"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "plcAI.analyzeBlock",
+          "when": "resourceExtname =~ /\\.(scl|xml|db|udt|txt)$/",
+          "group": "plcAI"
+        },
+        {
+          "command": "plcAI.explainCode",
+          "when": "editorHasSelection",
+          "group": "plcAI"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PLC AI Assistant",
+      "properties": {
+        "plcAI.anthropicApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Anthropic API key for Claude AI. Get it at https://console.anthropic.com",
+          "markdownDescription": "Anthropic API key for Claude AI. Get it at [console.anthropic.com](https://console.anthropic.com)"
+        },
+        "plcAI.outputLanguage": {
+          "type": "string",
+          "enum": ["EN", "PL", "DE", "PL+EN", "PL+EN+DE"],
+          "default": "PL+EN",
+          "description": "Language for generated documentation and comments."
+        },
+        "plcAI.model": {
+          "type": "string",
+          "enum": ["claude-opus-4-8", "claude-sonnet-4-6", "claude-haiku-4-5-20251001"],
+          "default": "claude-sonnet-4-6",
+          "description": "Claude model to use. Sonnet is recommended for best speed/quality ratio."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0"
+  }
+}
